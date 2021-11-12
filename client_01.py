@@ -1,6 +1,5 @@
 from telethon import functions
 
-
 # TelegramClient
 
 import sqlite3
@@ -12,7 +11,22 @@ from telethon.tl.types import PeerChannel
 
 from enter_to_db import *
 #################################################
-
+x = 1
+db = sqlite3.connect('Account.db')
+cur = db.cursor()
+cur.execute(f"SELECT PHONE FROM Account WHERE ID = '{x}'")
+time.sleep(0.4)
+Phone = str(cur.fetchone()[0])
+print("Входим в аккаунт: " + Phone, ' Номер ', x)
+cur.execute(f"SELECT API_ID FROM Account WHERE ID = '{x}'")
+time.sleep(0.4)
+api_id = str(cur.fetchone()[0])
+cur.execute(f"SELECT API_HASH FROM Account WHERE ID = '{x}'")
+time.sleep(0.4)
+api_hash = str(cur.fetchone()[0])
+session = str("anon" + str(x))
+client = TelegramClient(session, api_id, api_hash)
+client.start()
 # подключения
 def start ():
     x = 1
@@ -32,9 +46,6 @@ def start ():
     client = TelegramClient(session, api_id, api_hash)
     client.start()
     return  client.start()
-
-
-
 
 
 # Взятие URL с DB и поиск текущего имени чата и запись имени чата в DB.
@@ -91,7 +102,6 @@ def getURL():
 
 # Получить всех пользователей чата
 def get_all_users(channel):
-    client=start()
     print("get_all_users :",channel)
     #channel = 'https://t.me/zerno_agro_ua'
     conusers=[]
@@ -136,10 +146,68 @@ def Auto_updates_save_len_users():
 
 
 
-
-# channel = '@Pipl_test_chat'
+#
+# channel = 'https://t.me/agrotsion'
 # full = client(functions.channels.GetFullChannelRequest(channel))
 # full_channel = full.full_chat
 # channel_full_info = client(GetFullChannelRequest(channel=channel))
-# #print(channel_full_info.full_chat.about)
-# #print(full_channel.migrated_from_chat_id)
+#
+# print(channel_full_info.full_chat.about)
+# print(full_channel.migrated_from_chat_id)
+#
+#         #print(channel_full_info.full_chat.about)
+#         #print(full_channel.migrated_from_chat_id)
+# # NAME CHAT
+# channel_full_info = client(GetFullChannelRequest(channel=channel))
+# print("channel_full_info: ",channel_full_info)
+# chat_id = channel_full_info.full_chat.id
+# print("chat_id^ ",chat_id)
+# chanPeer = PeerChannel(channel_id=chat_id)
+# channel_entity = client.get_entity(chanPeer)
+# print(channel_entity.title)
+#
+#
+#
+#
+#
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

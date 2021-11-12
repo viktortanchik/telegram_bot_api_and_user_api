@@ -23,6 +23,8 @@ import asyncio
 
 con = sqlite3.connect('sqlite_python.db')
 
+
+
 @dp.message_handler(commands=['start'])
 async def process_start_command(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -110,16 +112,16 @@ async def with_puree(message: types.Message):
     temp=(fstr,)
     sql_insert_one(con,temp)
     print("temp",temp[0])
+    #print("len_users : ", await get_all_users(str(temp[0])))
 
     #await get_all_users(str(temp[0]))
-    print("len_users : ", await get_all_users(str(temp[0])))
     # id = sql_select_id(con, temp)
     # sets=False
     # save_len_users(len_users, id, sets)
-    start = datetime.datetime.now()
-    loop = asyncio.get_event_loop()
+    # start = datetime.datetime.now()
+    # loop = asyncio.get_event_loop()
     #loop.run(get_all_users(str(temp[0])))
-    exec_time = (datetime.datetime.now() - start).seconds
+    #exec_time = (datetime.datetime.now() - start).seconds
     await message.reply("Канал добавлен", reply_markup=keyboard)
 
 
