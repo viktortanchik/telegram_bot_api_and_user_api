@@ -10,7 +10,7 @@ import time
 import sqlite3
 from enter_to_db import *
 con = sqlite3.connect('sqlite_python.db')
-x = 2
+x = 3
 db = sqlite3.connect('Account.db')
 cur = db.cursor()
 cur.execute(f"SELECT PHONE FROM Account WHERE ID = '{x}'")
@@ -117,11 +117,15 @@ def save_current_number_of_users_in_channel(name_cha,id,):
     print("Current_number !!!")
     sql_update(con, set, set_name, where, where_name)
 
+
+from telethon.tl.functions.channels import JoinChannelRequest
+
 admin="@viktortanchik"
 while True:
     print("##################### START ###########################")
     urlls = geturls()
     for url in urlls:
+        #client(JoinChannelRequest(url))
         print("url >> ",url)
         # берем url и получаем текущее имя чата
         name_chat_now = chanelname(url)

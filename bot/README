@@ -1,13 +1,19 @@
-1 Open the file create_db.py and add account parameters
+1 устанавливаем библиотеки
+pip install aiogram
+pip install Telethon
+
+2 нужно создать бота с помощью @BotFather и создать файл config.py  вставить токен вот так  TOKEN = "сам токен"
+
+3 Open the file create_db.py and add account parameters, эти параметры можно получить  тут https://my.telegram.org/auth
 Phone = "+380****"
 password = "****"
 Api_id = "****"
 Api_hash = "****"
 
-2 Open the file create_client.py and change X by the number of accounts
+4 Open the file create_client.py and change X by the number of accounts
 
-3 Open the file create_db_telebot.py and run file
+5 Open the file create_db_telebot.py and run file
 
-4 Open the file key_bot_and_client.py and run file, after add chats
+6 Open the file key_bot_and_client.py and run file, after add chats
 
-5 Open the file  run.py and run file, after  update the script will run in a loop every 1 minute
+7 Open the file  run.py and run file, after  update the script will run in a loop every 1 minute

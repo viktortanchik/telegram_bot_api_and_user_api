@@ -216,7 +216,7 @@ async def process_start_command(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     buttons = ["Main menu"]
     keyboard.add(*buttons)
-    await message.reply("Привет!\nНапиши мне что-нибудь!", reply_markup=keyboard)
+    await message.reply("HI", reply_markup=keyboard)
 
 
 ####################################################################################
