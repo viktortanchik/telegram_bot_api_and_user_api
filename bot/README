@@ -1,0 +1,13 @@
+1 Open the file create_db.py and add account parameters
+Phone = "+380****"
+password = "****"
+Api_id = "****"
+Api_hash = "****"
+
+2 Open the file create_client.py and change X by the number of accounts
+
+3 Open the file create_db_telebot.py and run file
+
+4 Open the file key_bot_and_client.py and run file, after add chats
+
+5 Open the file  run.py and run file, after  update the script will run in a loop every 1 minute
