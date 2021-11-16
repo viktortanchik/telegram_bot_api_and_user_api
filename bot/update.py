@@ -95,11 +95,11 @@ def save_current_number_of_users_in_channel(name_cha,id,):
 
 
 admin=ADMIN
-x = 5
+x =2
 import time
 
-hour = 15
-min =25
+hour = 19
+min =40
 
 while True:
     h = time.strftime("%H")
@@ -124,6 +124,7 @@ while True:
     print("##################### START ###########################")
     urlls = geturls()
     for url in urlls:
+        time.sleep(35)
         #client(JoinChannelRequest(url))
         print("url >> ",url)
         # берем url и получаем текущее имя чата
@@ -176,8 +177,8 @@ while True:
                     print("SEND MESS")
                     client.send_message(admin, mess)
             save_current_number_of_users_in_channel(chat_len,str(id_cat_in_db))
-    x+=1
-    if x==7:
-        x=5
+    # x+=1
+    # if x==3:
+    #     x=2
 
     time.sleep(60)

@@ -18,7 +18,7 @@ bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
 # подключения
-x = 6
+x = 4
 db = sqlite3.connect('Account.db')
 cur = db.cursor()
 cur.execute(f"SELECT PHONE FROM Account WHERE ID = '{x}'")
@@ -36,5 +36,16 @@ client = TelegramClient(session, api_id, api_hash)
 client.start()
 client.connect()
 
+
+#https://t.me/joinchat/JxjBZVYL-1g2NTVi
+#https://t.me/joinchat/-hHsK5t8fatmYTQ0
+# https://t.me/joinchat/0miZIt7WAYcwM2Y0
 from telethon.tl.functions.messages import ImportChatInviteRequest
-updates =  client(ImportChatInviteRequest("-hHsK5t8fatmYTQ0"))
+#updates =  client(ImportChatInviteRequest("8qK8C3bzmwNkNDRk"))
+
+
+from telethon.tl.functions.channels import GetFullChannelRequest
+channel_connect = client.get_entity("https://t.me/joinchat/PfJvl_6nZQcwOTk0")
+channel_full_info = client(GetFullChannelRequest(channel=channel_connect))
+print(channel_full_info)
+client.send_message("https://t.me/joinchat/0miZIt7WAYcwM2Y0", "TEST_bot")
