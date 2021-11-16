@@ -94,7 +94,7 @@ def save_current_number_of_users_in_channel(name_cha,id,):
     sql_update(con, set, set_name, where, where_name)
 
 admin="@viktortanchik"
-x = 3
+x = 5
 while True:
 
     db = sqlite3.connect('Account.db')
@@ -167,5 +167,5 @@ while True:
             save_current_number_of_users_in_channel(chat_len,str(id_cat_in_db))
     x+=1
     if x==7:
-        x=3
+        x=5
     time.sleep(60)

@@ -16,4 +16,6 @@ Api_hash = "****"
 
 6 Open the file key_bot_and_client.py and run file, after add chats
 
-7 Open the file  run.py and run file, after  update the script will run in a loop every 1 minute
+7 Open the file config  and change ADMIN name
+
+8 Open the file  run.py and run file, after  update the script will run in a loop every 1 minute

@@ -5,69 +5,45 @@ from telethon import TelegramClient, sync, events
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.types import PeerChannel
 import time
-
+from config import ADMIN
 
 import sqlite3
 from enter_to_db import *
+
 con = sqlite3.connect('sqlite_python.db')
-x = 2
-db = sqlite3.connect('Account.db')
-cur = db.cursor()
-cur.execute(f"SELECT PHONE FROM Account WHERE ID = '{x}'")
-time.sleep(0.4)
-Phone = str(cur.fetchone()[0])
-print("Enter your account: " + Phone, ' Number ', x)
-cur.execute(f"SELECT API_ID FROM Account WHERE ID = '{x}'")
-time.sleep(0.4)
-api_id = str(cur.fetchone()[0])
-cur.execute(f"SELECT API_HASH FROM Account WHERE ID = '{x}'")
-time.sleep(0.4)
-api_hash = str(cur.fetchone()[0])
-session = str("anon" + str(x))
-client = TelegramClient(session, api_id, api_hash)
-client.start()
+
+
 ############################################### Работа с чатом ###############################################
 
 def chanelname(url):
-    channel = url#'@Pipl_test_chat'
-    full = client(functions.channels.GetFullChannelRequest(channel))
-    # print(full)
-    full_channel = full.full_chat
-    channel_full_info = client(GetFullChannelRequest(channel=channel))
-    chat_id = channel_full_info.full_chat.id
-    chanPeer = PeerChannel(channel_id=chat_id)
-    channel_entity = client.get_entity(chanPeer)
-    #print(channel_entity.photo.photo_id)
-    print(channel_entity.title)
-    return channel_entity.title
+    channel_connect = client.get_entity(url)
+    channel_full_info = client(GetFullChannelRequest(channel=channel_connect))
+    # print(channel_full_info.full_chat.participants_count)
+    #print(channel_full_info.chats)
+    #print("##########")
+    print("channel name >> ",channel_full_info.chats[0].title)
+    return channel_full_info.chats[0].title
 
 def chanelidphoto(url):
-    channel = url  # '@Pipl_test_chat'
-    full = client(functions.channels.GetFullChannelRequest(channel))
-    # print(full)
-    full_channel = full.full_chat
-    channel_full_info = client(GetFullChannelRequest(channel=channel))
-    chat_id = channel_full_info.full_chat.id
-    chanPeer = PeerChannel(channel_id=chat_id)
-    channel_entity = client.get_entity(chanPeer)
-    #print(channel_entity.photo.photo_id)
-    #print(channel_entity.title)
-    return channel_entity.photo.photo_id
+    channel_connect = client.get_entity(url)
+    channel_full_info = client(GetFullChannelRequest(channel=channel_connect))
+    photo = channel_full_info.chats[0].photo
+    if str(photo) == "ChatPhotoEmpty()":
+        print("photo None")
+        photo_id=0
+    else:
+        print("photo OK")
+        print(channel_full_info.chats[0].photo.photo_id)
+        photo_id = channel_full_info.chats[0].photo.photo_id
+    return photo_id
 
 def lenchanel(url):
-    #print(stats.stringify())
-    lens = client.get_participants(str(url))
-    conusers=[]
-    i=0
-    for u in lens:
-        # можно получить id ,first_name ,last_name ,username
-        #print(u.id, u.first_name, u.last_name, u.username)
-        conusers.append(u.id)
-        i+=1
-    print("Количество пользователей ",len(conusers))
-    return i #len(conusers)
-# url ='https://t.me/zernomart'
-# print(lenchanel(url))
+    channel_connect = client.get_entity(url)
+    channel_full_info = client(GetFullChannelRequest(channel=channel_connect))
+    print("participants_count >> ",channel_full_info.full_chat.participants_count)
+    return channel_full_info.full_chat.participants_count
+
+
 ############################################### Работа с базой ###############################################
 
 def geturls():
@@ -117,11 +93,38 @@ def save_current_number_of_users_in_channel(name_cha,id,):
     print("Current_number !!!")
     sql_update(con, set, set_name, where, where_name)
 
-admin="@viktortanchik"
+
+admin=ADMIN
+x = 5
+import time
+
+hour = 15
+min =25
+
 while True:
+    h = time.strftime("%H")
+    m = time.strftime("%M")
+    db = sqlite3.connect('Account.db')
+    cur = db.cursor()
+    cur.execute(f"SELECT PHONE FROM Account WHERE ID = '{x}'")
+    time.sleep(0.4)
+    Phone = str(cur.fetchone()[0])
+    print("Входим в аккаунт: " + Phone, ' Номер ', x)
+    cur.execute(f"SELECT API_ID FROM Account WHERE ID = '{x}'")
+    time.sleep(0.4)
+    api_id = str(cur.fetchone()[0])
+    cur.execute(f"SELECT API_HASH FROM Account WHERE ID = '{x}'")
+    time.sleep(0.4)
+    api_hash = str(cur.fetchone()[0])
+    session = str("anon" + str(x))
+    client = TelegramClient(session, api_id, api_hash)
+    client.start()
+    client.connect()
+
     print("##################### START ###########################")
     urlls = geturls()
     for url in urlls:
+        #client(JoinChannelRequest(url))
         print("url >> ",url)
         # берем url и получаем текущее имя чата
         name_chat_now = chanelname(url)
@@ -155,9 +158,10 @@ while True:
             how_many = int(how_many)
             how_many += 1
             save_photo_chat_how_many(how_many,id_cat_in_db)
-            mess =  str(name_chat_now) +' change his picture' + str(how_many) +" many times"
+            mess =  str(name_chat_now) +' change his picture ' + str(how_many) +" many times"
             # отправляем сообщения
             client.send_message(admin, mess)
+
         # Получаем текущие количество пользователей чата
         chat_len = lenchanel(url)
         # Получаем  количество пользователей чата c DB
@@ -167,6 +171,13 @@ while True:
             print("Количество участников  чата изменилось")
             mess =  str(name_chat_now) + " Change his number of chat participants has changed from "+str(chat_len_db) + " to " + str(chat_len)
             # отправляем сообщения
-            client.send_message(admin, mess)
+            if int(h) == int(hour):
+                if int(m) < int(min):
+                    print("SEND MESS")
+                    client.send_message(admin, mess)
             save_current_number_of_users_in_channel(chat_len,str(id_cat_in_db))
+    x+=1
+    if x==7:
+        x=5
+
     time.sleep(60)
