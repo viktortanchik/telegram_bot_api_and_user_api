@@ -18,7 +18,7 @@ bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
 # подключения
-x = 4
+x = 6
 db = sqlite3.connect('Account.db')
 cur = db.cursor()
 cur.execute(f"SELECT PHONE FROM Account WHERE ID = '{x}'")

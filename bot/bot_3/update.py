@@ -12,6 +12,16 @@ from enter_to_db import *
 
 con = sqlite3.connect('sqlite_python.db')
 
+admin=ADMIN
+
+# The first account is used by a bot. use accounts only from the second !
+x =2
+max_accounts=7
+#  TIME UPDATE
+hour = 9
+min =59
+# delay time when changing accounts
+changing_accounts = 60 # seconds
 
 ############################################### Работа с чатом ###############################################
 
@@ -66,7 +76,6 @@ def save_name_chat(name_cha,id,):
     print("save_name_chat !!!")
     sql_update(con,set,set_name,where,where_name)
 
-#url='@Pipl_test_chat'
 
 def save_photo_chat(name_cha,id,):
     set=("picture_changed")
@@ -94,12 +103,7 @@ def save_current_number_of_users_in_channel(name_cha,id,):
     sql_update(con, set, set_name, where, where_name)
 
 
-admin=ADMIN
-x =2
-import time
 
-hour = 9
-min =59
 
 while True:
     h = time.strftime("%H")
@@ -178,7 +182,7 @@ while True:
                     client.send_message(admin, mess)
             save_current_number_of_users_in_channel(chat_len,str(id_cat_in_db))
     x+=1
-    if x==3:
+    if x==max_accounts:
         x=2
 
-    time.sleep(60)
+    time.sleep(changing_accounts)
